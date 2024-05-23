@@ -1,0 +1,3 @@
+const USER_PAGINATION_LIMIT = 10;
+
+export { USER_PAGINATION_LIMIT };
