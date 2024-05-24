@@ -67,7 +67,7 @@ const UserTable: FC<UserTableProps> = ({ users, settings, userCount }) => {
     [createQueryString, pathname, router, settings.page, settings.sortBy.asc],
   );
 
-  const getNewPageString = useCallback(
+  const getQueryString = useCallback(
     (page: number) => {
       return (
         pathname +
@@ -110,16 +110,6 @@ const UserTable: FC<UserTableProps> = ({ users, settings, userCount }) => {
   return (
     <div>
       <Table>
-        <TableCaption>
-          <div className="flex justify-between flex-row-reverse flex-nowrap">
-            <Plus
-              className="cursor-pointer"
-              onClick={() => {
-                navigate('/new');
-              }}
-            />
-          </div>
-        </TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">
@@ -174,55 +164,72 @@ const UserTable: FC<UserTableProps> = ({ users, settings, userCount }) => {
               <TableCell className="font-medium truncate">{user.id}</TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
-              <TableCell>
-                <Pencil
+              <TableCell className="p-0">
+                <Button
                   onClick={(e) => {
                     router.push(`${path}/${user.id}/edit`);
                     e.stopPropagation();
                   }}
-                />
+                >
+                  <Pencil />
+                </Button>
               </TableCell>
-              <TableCell>
+              <TableCell className="p-0">
                 {' '}
                 {user.id === deletingId ? (
                   <Spinner />
                 ) : (
-                  <Trash
+                  <Button
                     onClick={(e) => {
                       handleDelete(user.id);
                       e.stopPropagation();
                     }}
-                  />
+                  >
+                    <Trash />
+                  </Button>
                 )}{' '}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
+        <TableCaption className=" w-full">
+          <div className="flex items-center">
+            <Pagination>
+              <PaginationContent className="cursor-pointer">
+                {settings.page > 1 && (
+                  <PaginationItem>
+                    <PaginationLink href={getQueryString(settings.page - 1)}>
+                      {settings.page - 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                )}
+                <PaginationItem>
+                  <PaginationLink isActive>{settings.page}</PaginationLink>
+                </PaginationItem>
+                {settings.page < totalPageCount && (
+                  <PaginationItem>
+                    <PaginationLink
+                      className="cursor-pointer"
+                      href={getQueryString(settings.page + 1)}
+                    >
+                      {settings.page + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                )}
+              </PaginationContent>
+            </Pagination>
+            <Button
+              className="flex gap-4"
+              onClick={() => {
+                navigate('/new');
+              }}
+            >
+              New user
+              <Plus />
+            </Button>
+          </div>
+        </TableCaption>
       </Table>
-      <Pagination>
-        <PaginationContent className="cursor-pointer">
-          {settings.page > 1 && (
-            <PaginationItem>
-              <PaginationLink href={getNewPageString(settings.page - 1)}>
-                {settings.page - 1}
-              </PaginationLink>
-            </PaginationItem>
-          )}
-          <PaginationItem>
-            <PaginationLink isActive>{settings.page}</PaginationLink>
-          </PaginationItem>
-          {settings.page < totalPageCount && (
-            <PaginationItem>
-              <PaginationLink
-                className="cursor-pointer"
-                href={getNewPageString(settings.page + 1)}
-              >
-                {settings.page + 1}
-              </PaginationLink>
-            </PaginationItem>
-          )}
-        </PaginationContent>
-      </Pagination>
     </div>
   );
 };
