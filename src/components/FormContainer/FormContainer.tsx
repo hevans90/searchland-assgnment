@@ -10,8 +10,9 @@ type FormContainerProps = {
 const FormContainer: FC<FormContainerProps> = ({ children }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Link href="/..">
+      <Link href="/.." className="flex gap-2">
         <ArrowLeft />
+        Back
       </Link>
       {children}
     </div>
