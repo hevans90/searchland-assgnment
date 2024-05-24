@@ -117,9 +117,6 @@ const UserForm: FC<UserFormProps> = ({ initialValues }) => {
               <FormControl>
                 <Input placeholder="email" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
