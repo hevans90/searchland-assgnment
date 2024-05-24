@@ -23,12 +23,12 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
+          'h-screen bg-gray-200 font-sans antialiased',
           fontSans.variable,
         )}
       >
-        <main>
-          <div className="px-72 pt-12">{children}</div>
+        <main className="flex flex-col items-center justify-center h-full w-full">
+          {children}
         </main>
         <Toaster />
       </body>
